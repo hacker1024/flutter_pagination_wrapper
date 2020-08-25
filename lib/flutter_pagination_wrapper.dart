@@ -122,7 +122,7 @@ class PaginatorState<PageType, ItemType> extends State<Paginator<PageType, ItemT
   int _totalCount = 1;
   bool _isLoading = false;
   bool _hasError = false;
-  PageType _latestPage = null;
+  PageType _latestPage;
 
   /// The list item count. Passed to your
   /// [PaginatorChildBuilder].
