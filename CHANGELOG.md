@@ -14,6 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
+## [0.1.2] - 2020-08-25
+
+* Fix bug in example where the state would be lost upon
+  rebuilding
+* Format code with an 80-collumn soft-wrap
+
 ## [0.1.1] - 2020-08-25
 
 * Add example.

@@ -14,7 +14,7 @@
 
 name: flutter_pagination_wrapper
 description: A widget that wraps a ListView or any type of ScrollView, and provides pagination functionality.
-version: 0.1.1
+version: 0.1.2
 homepage: https://github.com/hacker1024/flutter_pagination_wrapper
 
 environment:
