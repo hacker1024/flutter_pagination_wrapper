@@ -43,10 +43,10 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  /// The key used to access the [Paginator]'s state
-  final _key = GlobalKey<PaginatorState<FoodPage, String>>();
+/// The key used to access the [Paginator]'s state.
+final _key = GlobalKey<PaginatorState<FoodPage, String>>();
 
+class MyHomePage extends StatelessWidget {
   MyHomePage({Key key}) : super(key: key);
 
   @override
