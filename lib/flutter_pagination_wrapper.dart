@@ -23,12 +23,17 @@ import 'package:flutter/material.dart';
 typedef PageLoadFuture<PageType> = Future<PageType> Function(int pageNumber);
 typedef PageErrorChecker<PageType> = bool Function(PageType page);
 typedef TotalItemsGetter<PageType> = int Function(PageType page);
-typedef PageItemsGetter<PageType, ItemType> = List<ItemType> Function(PageType page);
-typedef ItemListTileBuilder<ItemType> = Widget Function(BuildContext context, ItemType item, int index);
+typedef PageItemsGetter<PageType, ItemType> = List<ItemType> Function(
+    PageType page);
+typedef ItemListTileBuilder<ItemType> = Widget Function(
+    BuildContext context, ItemType item, int index);
 typedef LoadingListTileBuilder = Widget Function(BuildContext context);
-typedef ErrorListTileBuilder<PageType> = Widget Function(BuildContext context, PageType page, int existingItemCount);
-typedef EmptyListWidgetBuilder<PageType> = Widget Function(BuildContext context, PageType page);
-typedef PaginatorChildBuilder = BoxScrollView Function(BuildContext context, IndexedWidgetBuilder itemBuilder, int itemCount);
+typedef ErrorListTileBuilder<PageType> = Widget Function(
+    BuildContext context, PageType page, int existingItemCount);
+typedef EmptyListWidgetBuilder<PageType> = Widget Function(
+    BuildContext context, PageType page);
+typedef PaginatorChildBuilder = BoxScrollView Function(
+    BuildContext context, IndexedWidgetBuilder itemBuilder, int itemCount);
 
 /// A widget to supply data to a child [ScrollView] page-by-page.
 ///
@@ -113,10 +118,12 @@ class Paginator<PageType, ItemType> extends StatefulWidget {
         super(key: key);
 
   @override
-  State<Paginator<PageType, ItemType>> createState() => PaginatorState<PageType, ItemType>();
+  State<Paginator<PageType, ItemType>> createState() =>
+      PaginatorState<PageType, ItemType>();
 }
 
-class PaginatorState<PageType, ItemType> extends State<Paginator<PageType, ItemType>> {
+class PaginatorState<PageType, ItemType>
+    extends State<Paginator<PageType, ItemType>> {
   final List<ItemType> _list = [];
   int _currentPageNumber = 0;
   int _totalCount = 1;
@@ -147,7 +154,8 @@ class PaginatorState<PageType, ItemType> extends State<Paginator<PageType, ItemT
   /// [PaginatorChildBuilder].
   Widget _buildItem(BuildContext context, int index) {
     // If there's been an error, show the error tile.
-    if ((index == _list.length) && _hasError) return widget._errorListTileBuilder(context, _latestPage, _list.length);
+    if ((index == _list.length) && _hasError)
+      return widget._errorListTileBuilder(context, _latestPage, _list.length);
 
     if (index < _list.length) {
       // If the item being built's data is downloaded, build it with that data.
@@ -164,7 +172,8 @@ class PaginatorState<PageType, ItemType> extends State<Paginator<PageType, ItemT
   @override
   Widget build(BuildContext context) {
     // If the total count's zero, show the empty list widget.
-    if (_totalCount == 0) return widget._emptyListWidgetBuilder(context, _latestPage);
+    if (_totalCount == 0)
+      return widget._emptyListWidgetBuilder(context, _latestPage);
 
     // Build the child.
     return widget._childBuilder(
