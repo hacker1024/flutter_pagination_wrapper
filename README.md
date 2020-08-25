@@ -6,7 +6,7 @@ A widget that wraps a ListView or any type of ScrollView, and provides paginatio
 Add to your pubspec:
 ```yaml
 dependencies:
-  flutter_paginator: ^0.1.0
+  flutter_paginator: ^0.1.1
 ```
 
 Import:

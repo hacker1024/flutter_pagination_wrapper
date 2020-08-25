@@ -14,6 +14,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
+## [0.1.1] - 2020-08-25
+
+* Add example.
+
 ## [0.1.0] - 2020-08-25
 
 * Initial release.
