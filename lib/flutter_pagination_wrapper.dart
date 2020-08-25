@@ -20,7 +20,7 @@ library flutter_pagination_wrapper;
 
 import 'package:flutter/material.dart';
 
-typedef PageLoadFuture<PageType> = Future<PageType> Function(int page);
+typedef PageLoadFuture<PageType> = Future<PageType> Function(int pageNumber);
 typedef PageErrorChecker<PageType> = bool Function(PageType page);
 typedef TotalItemsGetter<PageType> = int Function(PageType page);
 typedef PageItemsGetter<PageType, ItemType> = List<ItemType> Function(PageType page);
@@ -118,7 +118,7 @@ class Paginator<PageType, ItemType> extends StatefulWidget {
 
 class PaginatorState<PageType, ItemType> extends State<Paginator<PageType, ItemType>> {
   final List<ItemType> _list = [];
-  int _currentPage = 0;
+  int _currentPageNumber = 0;
   int _totalCount = 1;
   bool _isLoading = false;
   bool _hasError = false;
@@ -137,7 +137,7 @@ class PaginatorState<PageType, ItemType> extends State<Paginator<PageType, ItemT
       _latestPage = null;
       _hasError = false;
       _isLoading = false;
-      _currentPage = 0;
+      _currentPageNumber = 0;
       _totalCount = 1;
       _list.clear();
     });
@@ -186,7 +186,7 @@ class PaginatorState<PageType, ItemType> extends State<Paginator<PageType, ItemT
   /// Aborts if the error check is positive.
   Future<void> _loadAndAddNextPage() async {
     // Download the next page
-    final newPage = await widget._pageLoadFuture(++_currentPage);
+    final newPage = await widget._pageLoadFuture(++_currentPageNumber);
 
     // Check for errors
     if (widget._pageErrorChecker(newPage)) {
