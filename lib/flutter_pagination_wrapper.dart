@@ -45,6 +45,10 @@ typedef PaginatorChildBuilder = BoxScrollView Function(
 /// [ScrollView]. The itemBuilder method and itemCount integer can be directly
 /// passed into a [ListView.builder] or [GridView.builder]'s respective arguments.
 ///
+/// The [initialPage] and [initialPageNumber] arguments may also be passed in.
+/// These provide initial data to the list, and default to null and 0
+/// respectively.
+///
 /// The constructor also takes several additional required methods:
 ///
 /// [PageLoadFuture]
@@ -93,6 +97,8 @@ class Paginator<PageType, ItemType> extends StatefulWidget {
   final ErrorListTileBuilder<PageType> _errorListTileBuilder;
   final EmptyListWidgetBuilder<PageType> _emptyListWidgetBuilder;
   final PaginatorChildBuilder _childBuilder;
+  final PageType _initialPage;
+  final int _initialPageNumber;
 
   /// See the [Paginator] widget docs for more documentation.
   Paginator({
@@ -106,6 +112,8 @@ class Paginator<PageType, ItemType> extends StatefulWidget {
     @required final ErrorListTileBuilder<PageType> errorListTileBuilder,
     @required final EmptyListWidgetBuilder<PageType> emptyListWidgetBuilder,
     @required final PaginatorChildBuilder listBuilder,
+    final PageType initialData,
+    final int initialPage = 0,
   })  : _pageLoadFuture = pageLoadFuture,
         _pageErrorChecker = pageErrorChecker,
         _totalItemsGetter = totalItemsGetter,
@@ -115,6 +123,8 @@ class Paginator<PageType, ItemType> extends StatefulWidget {
         _errorListTileBuilder = errorListTileBuilder,
         _emptyListWidgetBuilder = emptyListWidgetBuilder,
         _childBuilder = listBuilder,
+        _initialPage = initialData,
+        _initialPageNumber = initialPage,
         super(key: key);
 
   @override
@@ -125,7 +135,7 @@ class Paginator<PageType, ItemType> extends StatefulWidget {
 class PaginatorState<PageType, ItemType>
     extends State<Paginator<PageType, ItemType>> {
   final List<ItemType> _list = [];
-  int _currentPageNumber = 0;
+  int _currentPageNumber;
   int _totalCount = 1;
   bool _isLoading = false;
   bool _hasError = false;
@@ -170,6 +180,22 @@ class PaginatorState<PageType, ItemType>
   }
 
   @override
+  void initState() {
+    super.initState();
+    _currentPageNumber = widget._initialPageNumber;
+    if (widget._initialPage != null) {
+      // Check for errors
+      if (widget._pageErrorChecker(widget._initialPage)) {
+        _flagError(widget._initialPage);
+        return;
+      }
+
+      // Update the page data
+      _updateData(widget._initialPage);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     // If the total count's zero, show the empty list widget.
     if (_totalCount == 0)
@@ -181,6 +207,18 @@ class PaginatorState<PageType, ItemType>
       _buildItem,
       _listItemCount,
     );
+  }
+
+  /// Update the internal data
+  void _updateData(PageType newPage) {
+    // Update the total item count
+    _totalCount = widget._totalItemsGetter(newPage);
+
+    // Add all the new list items
+    _list.addAll(widget._pageItemsGetter(newPage));
+
+    // Update the latest page
+    _latestPage = newPage;
   }
 
   /// Requests a new page to be loaded.
@@ -203,23 +241,12 @@ class PaginatorState<PageType, ItemType>
       return;
     }
 
-    void updateData() {
-      // Update the total item count
-      _totalCount = widget._totalItemsGetter(newPage);
-
-      // Add all the new list items
-      _list.addAll(widget._pageItemsGetter(newPage));
-
-      // Update the latest page
-      _latestPage = newPage;
-    }
-
     if (mounted) {
       setState(() {
-        updateData();
+        _updateData(newPage);
       });
     } else {
-      updateData();
+      _updateData(newPage);
     }
   }
 
