@@ -112,8 +112,8 @@ class Paginator<PageType, ItemType> extends StatefulWidget {
     @required final ErrorListTileBuilder<PageType> errorListTileBuilder,
     @required final EmptyListWidgetBuilder<PageType> emptyListWidgetBuilder,
     @required final PaginatorChildBuilder listBuilder,
-    final PageType initialData,
-    final int initialPage = 0,
+    final PageType initialPage,
+    final int initialPageNumber = 0,
   })  : _pageLoadFuture = pageLoadFuture,
         _pageErrorChecker = pageErrorChecker,
         _totalItemsGetter = totalItemsGetter,
@@ -123,8 +123,8 @@ class Paginator<PageType, ItemType> extends StatefulWidget {
         _errorListTileBuilder = errorListTileBuilder,
         _emptyListWidgetBuilder = emptyListWidgetBuilder,
         _childBuilder = listBuilder,
-        _initialPage = initialData,
-        _initialPageNumber = initialPage,
+        _initialPage = initialPage,
+        _initialPageNumber = initialPageNumber,
         super(key: key);
 
   @override
