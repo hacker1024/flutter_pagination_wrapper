@@ -192,6 +192,9 @@ class PaginatorState<PageType, ItemType>
 
       // Update the page data
       _updateData(widget._initialPage);
+    } else {
+      assert(widget._initialPageNumber == 0,
+          'Initial page number given, but provided page is null!');
     }
   }
 
